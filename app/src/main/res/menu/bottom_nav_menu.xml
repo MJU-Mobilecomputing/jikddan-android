@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="홈" />
+    <item
+        android:id="@+id/nav_calendar"
+        android:icon="@drawable/ic_calendar"
+        android:title="캘린더" />
+    <item
+        android:id="@+id/nav_food_record"
+        android:icon="@drawable/ic_food_record"
+        android:title="식단 기록" />
+    <item
+        android:id="@+id/nav_personal"
+        android:icon="@drawable/ic_personal"
+        android:title="퍼스널" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_my"
+        android:title="마이 페이지" />
+</menu>

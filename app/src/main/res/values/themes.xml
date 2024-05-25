@@ -6,4 +6,16 @@
     </style>
 
     <style name="Theme.MC_Jjikdan" parent="Base.Theme.MC_Jjikdan" />
+
+    <!-- 하단 내비게이션 뷰 선택된 Text Style -->
+    <style name="BottomNavTextActiveStyle" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
+
+    <!-- 하단 내비게이션 뷰 선택되지 않은 Text Style -->
+    <style name="BottomNavTextInactiveStyle" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/bottom_nav_item_color_inactive</item>
+    </style>
 </resources>
