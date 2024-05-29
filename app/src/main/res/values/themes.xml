@@ -1,8 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.MC_Jjikdan" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        // Attributes from material theme
+        <item name="colorPrimary">@color/main_color</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowLightStatusBar">@color/black</item>
+        // Attributes from android framework
+        <item name="android:windowBackground">#ffffff</item>
+
     </style>
 
     <style name="Theme.MC_Jjikdan" parent="Base.Theme.MC_Jjikdan" />
@@ -18,4 +23,5 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/bottom_nav_item_color_inactive</item>
     </style>
+
 </resources>
