@@ -2,7 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#C0C0C0</color>
     <color name="main_color">#FF7E48</color> <!-- res/color/nav_item_color_selector에서 참조 -->
     <color name="bottom_nav_item_color_inactive">#545454</color> <!-- res/color/nav_item_color_selector에서 참조 -->
     <color name="transparent">#00000000</color>
+    <color name="progress_blue">#46C3FB</color>
+    <color name="progress_circular_back">#FBBEA4</color>
 </resources>
