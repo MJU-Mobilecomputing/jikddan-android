@@ -2,9 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_personal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PersonalFragment">
+
+    <TextView
+        android:id="@+id/text_personal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="퍼스널"
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="20dp"/>
+    <!-- 일직선 추가 -->
+    <View
+        android:id="@+id/line"
+        android:layout_width="370dp"
+        android:layout_height="0.5dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/text_personal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="18dp" />
+    <!-- Navigation Arrows and Week Text -->
+    <ImageButton
+        android:id="@+id/leftArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_left_24"
+        android:background="@null"
+        app:layout_constraintTop_toTopOf="@id/weekText"
+        app:layout_constraintEnd_toStartOf="@id/weekText"
+        app:layout_constraintBottom_toBottomOf="@id/weekText"
+        android:contentDescription="Left Arrow" />
+
+    <TextView
+        android:id="@+id/weekText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5월 첫째 주"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="10dp"/>
+
+    <ImageButton
+        android:id="@+id/rightArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_right_24"
+        android:background="@null"
+        app:layout_constraintTop_toTopOf="@id/weekText"
+        app:layout_constraintStart_toEndOf="@id/weekText"
+        app:layout_constraintBottom_toBottomOf="@id/weekText"
+        android:contentDescription="Right Arrow" />
+
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -13,20 +70,23 @@
         android:text="5월 첫째 주 식단 분석"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weekText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:layout_marginStart="10dp"/>
 
     <LinearLayout
         android:id="@+id/linearLayoutStats"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/rounded_border"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,15 +98,30 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="총 칼로리" />
-
+                android:text="총 칼로리"
+                android:textStyle="bold"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15000 kcal"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textStyle="bold"
+                android:textColor="@color/main_color" />
         </LinearLayout>
-
+        <ProgressBar
+            android:id="@+id/progressKcal"
+            android:layout_width="320dp"
+            android:layout_height="8dp"
+            android:layout_gravity="center_horizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="85"
+            android:progressDrawable="@drawable/progress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="15dp"
+            android:text="85% / 일주일 권장량"
+            android:textSize="10sp" />
         <!-- Repeat similar block for 탄수화물, 단백질, 지방 -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,14 +133,32 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="총 탄수화물" />
+                android:text="총 탄수화물"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="200g"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textStyle="bold"
+                android:textColor="@color/main_color" />
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressCarbohydrate"
+            android:layout_width="320dp"
+            android:layout_height="8dp"
+            android:layout_gravity="center_horizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="60"
+            android:progressDrawable="@drawable/progress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="15dp"
+            android:text="65% / 일주일 권장량"
+            android:textSize="10sp"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,14 +170,31 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="총 단백질" />
+                android:text="총 단백질"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="120g"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textStyle="bold"
+                android:textColor="@color/main_color" />
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressProtein"
+            android:layout_width="320dp"
+            android:layout_height="8dp"
+            android:layout_gravity="center_horizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="15dp"
+            android:text="50% / 일주일 권장량"
+            android:textSize="10sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,56 +206,108 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="총 지방" />
+                android:text="총 지방"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="50g"
-                android:textColor="@android:color/holo_red_dark" />
+                android:textStyle="bold"
+                android:textColor="@color/main_color" />
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressFat"
+            android:layout_width="320dp"
+            android:layout_height="8dp"
+            android:layout_gravity="center_horizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:progress="50"
+            android:progressDrawable="@drawable/progress" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="15dp"
+            android:text="50% / 일주일 권장량"
+            android:textSize="10sp" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_view_solution"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="370dp"
+        android:layout_height="36dp"
         android:text="솔루션 보기"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:background="@drawable/button"
         app:layout_constraintTop_toBottomOf="@id/linearLayoutStats"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp" />
+        android:layout_marginTop="15dp"/>
 
-    <TextView
-        android:id="@+id/textViewSolutionTitle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/solutionLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="5월 첫째 주 식단 솔루션"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_border"
         app:layout_constraintTop_toBottomOf="@id/btn_view_solution"
         app:layout_constraintStart_toStartOf="parent"
-        android:padding="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible">
 
-    <TextView
-        android:id="@+id/textViewSolutionDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="남성의 경우 2,500 kcal 부족할 수 있습니다. 하루에 약 357 kcal를 추가로 섭취하세요."
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewSolutionTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        android:padding="16dp" />
+        <TextView
+            android:id="@+id/textViewSolutionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5월 첫째 주 식단 솔루션"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/btn_view_solution"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingStart="16dp" />
+        <!-- 원형 ProgressBar와 TextView를 중첩하는 FrameLayout -->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textViewFoodSuggestions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="추가할 수 있는 음식: 견과류 한 줌 (200 kcal), 바나나 1개 (105 kcal), 그릭 요거트 (150 kcal)"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewSolutionDescription"
-        app:layout_constraintStart_toStartOf="parent"
-        android:padding="16dp" />
+            <ProgressBar
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:progressDrawable="@drawable/progress_circular"
+                android:progress="70"
+                android:max="100"/>
+
+            <TextView
+                android:id="@+id/solutionScore"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:text="70점" />
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/textViewSolutionDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="남성의 경우 2,500 kcal 부족할 수 있습니다. 하루에 약 357 kcal를 추가로 섭취하세요.\n추가할 수 있는 음식: 견과류 한 줌 (200 kcal), 바나나 1개 (105 kcal), 그릭 요거트 (150 kcal)"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/textViewSolutionTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="16dp" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

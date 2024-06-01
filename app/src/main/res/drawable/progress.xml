@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 1. progress 의 배경 지정 -->
+    <item
+        android:id="@android:id/background">
+        <shape>
+            <corners android:radius="3dp"/>
+            <solid android:color="#C4EDFF"/>
+        </shape>
+    </item>
+    <!-- 2. progress 가 증가함에 따라 늘어나는 부분 -->
+    <item
+        android:id="@android:id/progress">
+        <scale
+            android:scaleWidth="100%">
+            <shape>
+                <corners android:radius="5dp"/>
+                <solid android:color="#89D7FA"/>
+            </shape>
+        </scale>
+    </item>
+
+</layer-list>
