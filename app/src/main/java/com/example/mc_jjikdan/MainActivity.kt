@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_calendar -> {
-                    //loadFragment(CalendarFragment())
+                    loadFragment(CalendarFragment())
                     true
                 }
                 R.id.nav_food_record -> {

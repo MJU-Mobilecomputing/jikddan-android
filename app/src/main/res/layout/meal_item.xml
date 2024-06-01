@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/item_background">
+
+    <ImageView
+        android:id="@+id/mealImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_launcher_foreground"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/mealName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="식단 이름"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/mealDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업로드 날짜"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/mealTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업로드 시간"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/mealCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총 섭취 칼로리"
+            android:textSize="14sp"
+            android:textColor="@color/main_color"/>
+    </LinearLayout>
+</LinearLayout>
