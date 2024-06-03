@@ -57,7 +57,7 @@ class CalendarFragment : Fragment() {
                     mealDate.text = meal.date
                     mealTime.text = meal.time
                     mealCalories.text = "${meal.calories} Kcal"
-                    // Assuming meal.image is a URL or resource ID
+                    // meal.image를 URL 또는 리소스 ID로 임시사용
                     // Glide.with(this).load(meal.image).into(mealImage)
 
                     editButton.setOnClickListener {
@@ -126,11 +126,11 @@ class CalendarFragment : Fragment() {
 
     private fun updateMeal(meal: Meal) {
         foodRecordViewModel.updateMeal(meal)
-        Toast.makeText(requireContext(), "${meal.name}(으)로 수정되었습니다!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "${meal.name} (으)로 수정되었습니다!", Toast.LENGTH_SHORT).show()
     }
 
     private fun deleteMeal(meal: Meal) {
         foodRecordViewModel.deleteMeal(meal)
-        Toast.makeText(requireContext(), "${meal.name}이(가) 삭제되었습니다!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "${meal.name} (이)가 삭제되었습니다!", Toast.LENGTH_SHORT).show()
     }
 }
