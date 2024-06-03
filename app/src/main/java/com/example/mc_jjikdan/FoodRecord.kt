@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class FoodRecord : ViewModel() {
 
-    private val mealsLiveData = MutableLiveData<List<Meal>>()
+    val mealsLiveData = MutableLiveData<List<Meal>>()
 
     fun getMealsForDate(date: String): LiveData<List<Meal>> {
         // Sample 데이터 임시생성
@@ -22,5 +22,20 @@ class FoodRecord : ViewModel() {
         }
         mealsLiveData.value = sampleMeals
         return mealsLiveData
+    }
+
+    fun deleteMeal(meal: Meal) {
+        val currentMeals = mealsLiveData.value?.toMutableList()
+        currentMeals?.remove(meal)
+        mealsLiveData.value = currentMeals
+    }
+
+    fun updateMeal(meal: Meal) {
+        val currentMeals = mealsLiveData.value?.toMutableList()
+        val index = currentMeals?.indexOfFirst { it.date == meal.date && it.time == meal.time }
+        if (index != null && index != -1) {
+            currentMeals[index] = meal
+            mealsLiveData.value = currentMeals
+        }
     }
 }

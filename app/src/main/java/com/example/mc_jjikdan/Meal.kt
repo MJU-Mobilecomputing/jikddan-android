@@ -1,9 +1,9 @@
 package com.example.mc_jjikdan
 
 data class Meal(
-    val name: String,
+    var name: String,
     val date: String,
-    val time: String,
-    val calories: String,
+    var time: String,
+    var calories: String,
     val image: String
 )
