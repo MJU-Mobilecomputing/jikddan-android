@@ -41,8 +41,9 @@ class CalendarFragment : Fragment() {
                 noMealsMessage.visibility = View.VISIBLE
             } else {
                 noMealsMessage.visibility = View.GONE
+                val sortedMeals = meals.sorted()
 
-                meals.forEach { meal ->
+                sortedMeals.forEach { meal ->
                     val mealView = layoutInflater.inflate(R.layout.meal_item, mealContainer, false)
                     val mealName: TextView = mealView.findViewById(R.id.mealName)
                     val mealDate: TextView = mealView.findViewById(R.id.mealDate)
@@ -56,7 +57,7 @@ class CalendarFragment : Fragment() {
                     mealDate.text = meal.date
                     mealTime.text = meal.time
                     mealCalories.text = "${meal.calories} Kcal"
-                    // meal.image를 URL 또는 리소스 ID로 가정
+                    // Assuming meal.image is a URL or resource ID
                     // Glide.with(this).load(meal.image).into(mealImage)
 
                     editButton.setOnClickListener {
@@ -76,16 +77,24 @@ class CalendarFragment : Fragment() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_meal, null)
         val mealNameEditText: EditText = dialogView.findViewById(R.id.editMealName)
         val mealCaloriesEditText: EditText = dialogView.findViewById(R.id.editMealCalories)
-        val mealTimeEditText: EditText = dialogView.findViewById(R.id.editMealTime)
+        val mealTimePicker: TimePicker = dialogView.findViewById(R.id.editMealTime)
         val saveButton: Button = dialogView.findViewById(R.id.saveButton)
 
         mealNameEditText.setText(meal.name)
         mealCaloriesEditText.setText(meal.calories)
-        mealTimeEditText.setText(meal.time)
+
+        // 시간 설정
+        val timeParts = meal.time.split(":")
+        val hour = timeParts[0].toInt()
+        val minute = timeParts[1].split(" ")[0].toInt()
+        val isPM = timeParts[1].split(" ")[1].equals("PM", ignoreCase = true)
+
+        mealTimePicker.setIs24HourView(false)
+        mealTimePicker.hour = if (isPM && hour != 12) hour + 12 else hour
+        mealTimePicker.minute = minute
 
         val dialog = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("식단을 수정하시겠습니까?")
             .setPositiveButton("수정", null)
             .setNegativeButton("취소", null)
             .create()
@@ -95,7 +104,12 @@ class CalendarFragment : Fragment() {
             positiveButton.setOnClickListener {
                 meal.name = mealNameEditText.text.toString()
                 meal.calories = mealCaloriesEditText.text.toString()
-                meal.time = mealTimeEditText.text.toString()
+
+                val selectedHour = mealTimePicker.hour
+                val selectedMinute = mealTimePicker.minute
+                val amPm = if (selectedHour >= 12) "PM" else "AM"
+                val formattedHour = if (selectedHour % 12 == 0) 12 else selectedHour % 12
+                meal.time = String.format("%02d:%02d %s", formattedHour, selectedMinute, amPm)
 
                 saveButton.visibility = View.VISIBLE
                 positiveButton.visibility = View.GONE
@@ -112,7 +126,7 @@ class CalendarFragment : Fragment() {
 
     private fun updateMeal(meal: Meal) {
         foodRecordViewModel.updateMeal(meal)
-        Toast.makeText(requireContext(), "${meal.name}이(가) 수정되었습니다!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "${meal.name}(으)로 수정되었습니다!", Toast.LENGTH_SHORT).show()
     }
 
     private fun deleteMeal(meal: Meal) {

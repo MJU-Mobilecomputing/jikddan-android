@@ -9,23 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="오늘의 식단"
-        android:textSize="25sp"
+        android:textSize="23sp"
         android:textStyle="bold"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginBottom="20dp" />
 
     <EditText
         android:id="@+id/editMealName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:hint="식단 이름" />
 
-    <EditText
+    <TimePicker
         android:id="@+id/editMealTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:hint="업로드 시간" />
+        android:timePickerMode="spinner" />
 
     <EditText
         android:id="@+id/editMealCalories"
