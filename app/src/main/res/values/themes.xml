@@ -7,10 +7,15 @@
         <item name="android:windowLightStatusBar">@color/black</item>
         // Attributes from android framework
         <item name="android:windowBackground">#ffffff</item>
-
     </style>
 
     <style name="Theme.MC_Jjikdan" parent="Base.Theme.MC_Jjikdan" />
+
+    <!-- 스플래시 화면 테마 -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/main_color</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 
     <!-- 하단 내비게이션 뷰 선택된 Text Style -->
     <style name="BottomNavTextActiveStyle" parent="TextAppearance.AppCompat.Caption">
