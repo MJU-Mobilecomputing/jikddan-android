@@ -14,7 +14,11 @@ interface ApiService {
     fun getDailySummary(@Path("date") date: String): Call<DailySummary>
 
     @GET("/api/v1/weekly")
-    fun getWeeklySummary(@Query("month") month: Int, @Query("week_num") weekNum: Int): Call<WeeklySummary>
+    fun getWeeklySummary(
+        @Query("month") month: Int,
+        @Query("week_num") weekNum: Int
+    ): Call<WeeklySummaryResponse>
+
 
     @Multipart
     @POST("/api/v1/menu")

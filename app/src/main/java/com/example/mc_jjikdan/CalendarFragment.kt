@@ -24,6 +24,7 @@ class CalendarFragment : Fragment() {
     private lateinit var noMealsMessage: TextView
     private lateinit var binding: FragmentCalendarBinding
 
+
     private val viewModel: DiaryViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +49,7 @@ class CalendarFragment : Fragment() {
                         data.add(menu)
                     }
                     binding.menuListRecyclerView.adapter = MenuAdapter(data)
+
                 }
             }
         }
@@ -113,5 +115,10 @@ class CalendarFragment : Fragment() {
     private fun deleteMeal(meal: Meal) {
         foodRecordViewModel.deleteMeal(meal)
         Toast.makeText(requireContext(), "${meal.name} (이)가 삭제되었습니다!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        //_binding = null
     }
 }
