@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    //loadFragment(ProfileFragment())
+                    loadFragment(ProfileFragment())
                     true
                 }
                 else -> false
