@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_food_record -> {
-                    //loadFragment(FoodRecordFragment())
+                    loadFragment(FoodRecordFragment())
                     true
                 }
 

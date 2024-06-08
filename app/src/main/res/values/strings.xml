@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MC_Jjikdan</string>
+    <string-array name="menu_times">
+        <item>breakfast</item>
+        <item>lunch</item>
+        <item>dinner</item>
+        <item>snack</item>
+    </string-array>
 </resources>
