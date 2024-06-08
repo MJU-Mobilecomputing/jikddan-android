@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.mc_jjikdan.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -21,22 +24,27 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     true
                 }
+
                 R.id.nav_calendar -> {
                     loadFragment(CalendarFragment())
                     true
                 }
+
                 R.id.nav_food_record -> {
                     //loadFragment(FoodRecordFragment())
                     true
                 }
+
                 R.id.nav_personal -> {
                     loadFragment(PersonalFragment())
                     true
                 }
+
                 R.id.nav_profile -> {
                     loadFragment(ProfileFragment())
                     true
                 }
+
                 else -> false
             }
         }
