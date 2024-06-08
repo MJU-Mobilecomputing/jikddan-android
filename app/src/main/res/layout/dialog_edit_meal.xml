@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="오늘의 식단"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="식단 이름:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp" />
+
+        <EditText
+            android:id="@+id/editMealName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="식단 이름을 수정해주세요"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업로드 시간:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp" />
+
+        <TimePicker
+            android:id="@+id/editMealTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:timePickerMode="spinner" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="총 섭취 칼로리:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp" />
+
+        <EditText
+            android:id="@+id/editMealCalories"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="총 섭취 칼로리를 입력해주세요"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="저장"
+        android:visibility="gone" />
+</LinearLayout>

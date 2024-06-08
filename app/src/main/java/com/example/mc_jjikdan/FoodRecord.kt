@@ -1,0 +1,41 @@
+package com.example.mc_jjikdan
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+class FoodRecord : ViewModel() {
+
+    val mealsLiveData = MutableLiveData<List<Meal>>()
+
+    fun getMealsForDate(date: String): LiveData<List<Meal>> {
+        // Sample 데이터 임시생성
+        val sampleMeals = if (date == "2024-5-28") {
+            listOf(
+                Meal("샐러드", date, "12:00 PM", "320", "https://example.com/salad.jpg"),
+                Meal("단백질 바", date, "3:00 PM", "150", "https://example.com/protein_bar.jpg"),
+                Meal("아메리카노", date, "5:00 PM", "60", "https://example.com/americano.jpg"),
+                Meal("마라샹궈", date, "8:00 PM", "880", "https://example.com/hagimara.jpg")
+            )
+        } else {
+            emptyList()
+        }
+        mealsLiveData.value = sampleMeals
+        return mealsLiveData
+    }
+
+    fun deleteMeal(meal: Meal) {
+        val currentMeals = mealsLiveData.value?.toMutableList()
+        currentMeals?.remove(meal)
+        mealsLiveData.value = currentMeals
+    }
+
+    fun updateMeal(meal: Meal) {
+        val currentMeals = mealsLiveData.value?.toMutableList()
+        val index = currentMeals?.indexOfFirst { it.date == meal.date && it.time == meal.time }
+        if (index != null && index != -1) {
+            currentMeals[index] = meal
+            mealsLiveData.value = currentMeals
+        }
+    }
+}
