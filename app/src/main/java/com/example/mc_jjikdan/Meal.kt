@@ -1,6 +1,7 @@
 package com.example.mc_jjikdan
 
 data class Meal(
+    val id: Int,
     var name: String,
     val date: String,
     var time: String,

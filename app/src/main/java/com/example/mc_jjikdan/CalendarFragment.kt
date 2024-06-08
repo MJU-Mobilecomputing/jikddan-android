@@ -8,43 +8,42 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
+import com.example.mc_jjikdan.databinding.FragmentCalendarBinding
 
 class CalendarFragment : Fragment() {
 
-    private lateinit var calendarView: CalendarView
-    private lateinit var mealContainer: LinearLayout
+    private var _binding: FragmentCalendarBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var foodRecordViewModel: FoodRecord // ViewModel
-    private lateinit var noMealsMessage: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_calendar, container, false)
-        calendarView = view.findViewById(R.id.calendarView)
-        mealContainer = view.findViewById(R.id.mealContainer)
-        noMealsMessage = view.findViewById(R.id.noMealsMessage)
-
+    ): View {
+        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
         foodRecordViewModel = ViewModelProvider(requireActivity()).get(FoodRecord::class.java)
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = "$year-${month + 1}-$dayOfMonth"
             loadMealsForDate(selectedDate)
         }
-        return view
+        return binding.root
     }
 
     private fun loadMealsForDate(date: String) {
         foodRecordViewModel.getMealsForDate(date).observe(viewLifecycleOwner, { meals ->
-            mealContainer.removeViews(1, mealContainer.childCount - 1)
+            binding.mealContainer.removeViews(1, binding.mealContainer.childCount - 1)
 
             if (meals.isNullOrEmpty()) {
-                noMealsMessage.visibility = View.VISIBLE
+                binding.noMealsMessage.visibility = View.VISIBLE
             } else {
-                noMealsMessage.visibility = View.GONE
+                binding.noMealsMessage.visibility = View.GONE
                 val sortedMeals = meals.sorted()
 
                 sortedMeals.forEach { meal ->
-                    val mealView = layoutInflater.inflate(R.layout.meal_item, mealContainer, false)
+                    val mealView = layoutInflater.inflate(R.layout.meal_item, binding.mealContainer, false)
                     val mealName: TextView = mealView.findViewById(R.id.mealName)
                     val mealDate: TextView = mealView.findViewById(R.id.mealDate)
                     val mealTime: TextView = mealView.findViewById(R.id.mealTime)
@@ -67,7 +66,7 @@ class CalendarFragment : Fragment() {
                         deleteMeal(meal)
                     }
 
-                    mealContainer.addView(mealView)
+                    binding.mealContainer.addView(mealView)
                 }
             }
         })
@@ -132,5 +131,10 @@ class CalendarFragment : Fragment() {
     private fun deleteMeal(meal: Meal) {
         foodRecordViewModel.deleteMeal(meal)
         Toast.makeText(requireContext(), "${meal.name} (이)가 삭제되었습니다!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
