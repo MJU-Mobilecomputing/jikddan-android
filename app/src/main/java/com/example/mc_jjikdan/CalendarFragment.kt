@@ -2,76 +2,57 @@ package com.example.mc_jjikdan
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.mc_jjikdan.adapter.MenuAdapter
+import com.example.mc_jjikdan.api.diary.dto.Menu
+import com.example.mc_jjikdan.databinding.FragmentCalendarBinding
+import com.example.mc_jjikdan.viewmodel.DiaryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CalendarFragment : Fragment() {
-
     private lateinit var calendarView: CalendarView
     private lateinit var mealContainer: LinearLayout
     private lateinit var foodRecordViewModel: FoodRecord // ViewModel
     private lateinit var noMealsMessage: TextView
+    private lateinit var binding: FragmentCalendarBinding
 
+    private val viewModel: DiaryViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_calendar, container, false)
-        calendarView = view.findViewById(R.id.calendarView)
-        mealContainer = view.findViewById(R.id.mealContainer)
-        noMealsMessage = view.findViewById(R.id.noMealsMessage)
-
-        foodRecordViewModel = ViewModelProvider(requireActivity()).get(FoodRecord::class.java)
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val selectedDate = "$year-${month + 1}-$dayOfMonth"
-            loadMealsForDate(selectedDate)
-        }
-        return view
+    ): View {
+        binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private fun loadMealsForDate(date: String) {
-        foodRecordViewModel.getMealsForDate(date).observe(viewLifecycleOwner, { meals ->
-            mealContainer.removeViews(1, mealContainer.childCount - 1)
-
-            if (meals.isNullOrEmpty()) {
-                noMealsMessage.visibility = View.VISIBLE
-            } else {
-                noMealsMessage.visibility = View.GONE
-                val sortedMeals = meals.sorted()
-
-                sortedMeals.forEach { meal ->
-                    val mealView = layoutInflater.inflate(R.layout.meal_item, mealContainer, false)
-                    val mealName: TextView = mealView.findViewById(R.id.mealName)
-                    val mealDate: TextView = mealView.findViewById(R.id.mealDate)
-                    val mealTime: TextView = mealView.findViewById(R.id.mealTime)
-                    val mealCalories: TextView = mealView.findViewById(R.id.mealCalories)
-                    val mealImage: ImageView = mealView.findViewById(R.id.mealImage)
-                    val editButton: Button = mealView.findViewById(R.id.editButton)
-                    val deleteButton: Button = mealView.findViewById(R.id.deleteButton)
-
-                    mealName.text = meal.name
-                    mealDate.text = meal.date
-                    mealTime.text = meal.time
-                    mealCalories.text = "${meal.calories} Kcal"
-                    // meal.image를 URL 또는 리소스 ID로 임시사용
-                    // Glide.with(this).load(meal.image).into(mealImage)
-
-                    editButton.setOnClickListener {
-                        showEditDialog(meal)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.calendarView.setOnDateChangeListener { calenderView, year, month, dayOfMonth ->
+            run {
+                val data = mutableListOf<Menu>()
+                val formattedMonth = String.format("%02d", month + 1)
+                val formattedDayOfMonth = String.format("%02d", dayOfMonth)
+                viewModel.getData("$year-$formattedMonth-$formattedDayOfMonth")
+                binding.menuListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+                viewModel.diary.observe(viewLifecycleOwner) {
+                    Log.d("TAG", it.toString())
+                    for (menu in it.diary_menus) {
+                        data.add(menu)
                     }
-                    deleteButton.setOnClickListener {
-                        deleteMeal(meal)
-                    }
-
-                    mealContainer.addView(mealView)
+                    binding.menuListRecyclerView.adapter = MenuAdapter(data)
                 }
             }
-        })
+        }
     }
+
 
     private fun showEditDialog(meal: Meal) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_meal, null)
