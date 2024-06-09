@@ -14,6 +14,16 @@ interface ApiService {
     fun getDailySummary(@Path("date") date: String): Call<DailySummary>
 
     @GET("/api/v1/weekly")
+    fun getWeeklySummary(@Query("month") month: Int, @Query("week_num") weekNum: Int): Call<WeeklySummary>
+
+    @POST("/api/v1/menu")
+    @FormUrlEncoded
+    fun createMeal(
+        @Field("img") img: String,
+        @Field("date") date: String,
+        @Field("menu_time") menuTime: String
+    ): Call<Meal>
+
     fun getWeeklySummary(
         @Query("month") month: Int,
         @Query("week_num") weekNum: Int

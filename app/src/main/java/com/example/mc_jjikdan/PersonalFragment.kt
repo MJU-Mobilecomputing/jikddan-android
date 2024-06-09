@@ -26,6 +26,7 @@ class PersonalFragment : Fragment() {
     private val weeklyRecommendedProtein = 350 // 50g * 7 days
     private val weeklyRecommendedFat = 560 // 80g * 7 days
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -24,7 +24,6 @@ class CalendarFragment : Fragment() {
     private lateinit var noMealsMessage: TextView
     private lateinit var binding: FragmentCalendarBinding
 
-
     private val viewModel: DiaryViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +48,6 @@ class CalendarFragment : Fragment() {
                         data.add(menu)
                     }
                     binding.menuListRecyclerView.adapter = MenuAdapter(data)
-
                 }
             }
         }
@@ -119,6 +117,6 @@ class CalendarFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        //_binding = null
+        _binding = null
     }
 }

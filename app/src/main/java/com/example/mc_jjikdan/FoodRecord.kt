@@ -14,6 +14,7 @@ class FoodRecord : ViewModel() {
     val weeklySummaryLiveData = MutableLiveData<WeeklySummary?>()
     val solutionLiveData = MutableLiveData<String?>()
 
+
     private val apiService = RetrofitClient.apiService
 
     fun getMealsForDate(date: String): LiveData<List<Meal>> {
