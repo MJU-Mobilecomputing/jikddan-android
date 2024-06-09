@@ -1,6 +1,7 @@
 package com.example.mc_jjikdan
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -22,9 +23,7 @@ import retrofit2.Response
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-
 class FoodRecordFragment : Fragment() {
-
     private var _binding: FragmentFoodRecordBinding? = null
     private val binding get() = _binding!!
     private lateinit var foodRecordViewModel: FoodRecord
@@ -79,7 +78,8 @@ class FoodRecordFragment : Fragment() {
         // 식단 저장 버튼 리스너
         binding.btnSaveFood.setOnClickListener {
             if (imageUri != null) {
-                uploadMeal(imageUri!!)
+                val nickname = getNicknameFromPreferences()
+                uploadMeal(nickname, imageUri!!)
             } else {
                 Toast.makeText(requireContext(), "이미지를 선택하세요.", Toast.LENGTH_SHORT).show()
             }
@@ -107,14 +107,14 @@ class FoodRecordFragment : Fragment() {
         }
     }
 
-    private fun uploadMeal(uri: Uri) {
+    private fun uploadMeal(nickname: String, uri: Uri) {
         val file = File(uri.path)
         val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
         val body = MultipartBody.Part.createFormData("img", file.name, requestFile)
         val datePart = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedDate)
         val menuTimePart = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedMenuTime)
 
-        RetrofitClient.apiService.uploadMeal(body, datePart, menuTimePart).enqueue(object : Callback<MealResponse> {
+        RetrofitClient.apiService.uploadMeal(nickname, body, datePart, menuTimePart).enqueue(object : Callback<MealResponse> {
             override fun onResponse(call: Call<MealResponse>, response: Response<MealResponse>) {
                 if (response.isSuccessful) {
                     // 분석된 값 업데이트
@@ -139,6 +139,11 @@ class FoodRecordFragment : Fragment() {
             binding.progressWater.progress = it.carbon
             // 더 많은 정보가 필요하다면 추가적인 업데이트 로직을 작성하세요.
         }
+    }
+
+    private fun getNicknameFromPreferences(): String {
+        val sharedPreferences = requireActivity().getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("nickname", "") ?: ""
     }
 
     override fun onDestroyView() {

@@ -1,11 +1,12 @@
-package com.example.mc_jjikdan
-
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.mc_jjikdan.FoodRecord
+import com.example.mc_jjikdan.WeeklySummary
 import com.example.mc_jjikdan.databinding.FragmentPersonalBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,7 +26,6 @@ class PersonalFragment : Fragment() {
     private val weeklyRecommendedCarbohydrate = 2100 // 300g * 7 days
     private val weeklyRecommendedProtein = 350 // 50g * 7 days
     private val weeklyRecommendedFat = 560 // 80g * 7 days
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +70,7 @@ class PersonalFragment : Fragment() {
     }
 
     private fun loadCurrentWeekMeals() {
+        val nickname = getNicknameFromPreferences()
         // 주의 시작일 계산
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
         val startDate = calendar.time
@@ -101,7 +102,7 @@ class PersonalFragment : Fragment() {
             weekOfMonth
         }
 
-        foodRecordViewModel.getWeeklySummary(month, weekNum)
+        foodRecordViewModel.getWeeklySummary(nickname, month, weekNum)
 
         // 주 텍스트 업데이트
         val weekText = dateFormat.format(startDate) + " - " +
@@ -148,6 +149,22 @@ class PersonalFragment : Fragment() {
         binding.txtFatPercent.text = "$fatPercent% / 일주일 권장량"
 
         binding.solutionScore.text = "${summary.weeklyAverageScore}점"
+    }
+
+    fun clearPersonalData() {
+        binding.linearLayoutStats.visibility = View.GONE
+        binding.solutionLayout.visibility = View.GONE
+        binding.weekText.text = ""
+        binding.textViewTitle.text = ""
+        binding.textViewSolutionTitle.text = ""
+        binding.textViewSolutionDescription.text = ""
+        binding.solutionScore.text = ""
+        binding.progressSolution.progress = 0
+    }
+
+    private fun getNicknameFromPreferences(): String {
+        val sharedPreferences = requireActivity().getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("nickname", "") ?: ""
     }
 
     override fun onDestroyView() {

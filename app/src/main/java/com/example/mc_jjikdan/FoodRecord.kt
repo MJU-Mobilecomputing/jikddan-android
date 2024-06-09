@@ -7,18 +7,16 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 class FoodRecord : ViewModel() {
     val mealsLiveData = MutableLiveData<List<Meal>>()
     val dailySummaryLiveData = MutableLiveData<DailySummary?>()
     val weeklySummaryLiveData = MutableLiveData<WeeklySummary?>()
     val solutionLiveData = MutableLiveData<String?>()
 
-
     private val apiService = RetrofitClient.apiService
 
-    fun getMealsForDate(date: String): LiveData<List<Meal>> {
-        apiService.getMealsForDate(date).enqueue(object : Callback<List<Meal>> {
+    fun getMealsForDate(nickname: String, date: String): LiveData<List<Meal>> {
+        apiService.getMealsForDate(nickname, date).enqueue(object : Callback<List<Meal>> {
             override fun onResponse(call: Call<List<Meal>>, response: Response<List<Meal>>) {
                 if (response.isSuccessful) {
                     mealsLiveData.value = response.body()
@@ -35,8 +33,8 @@ class FoodRecord : ViewModel() {
         return mealsLiveData
     }
 
-    fun getDailySummary(date: String): LiveData<DailySummary?> {
-        apiService.getDailySummary(date).enqueue(object : Callback<DailySummary> {
+    fun getDailySummary(nickname: String, date: String): LiveData<DailySummary?> {
+        apiService.getDailySummary(nickname, date).enqueue(object : Callback<DailySummary> {
             override fun onResponse(call: Call<DailySummary>, response: Response<DailySummary>) {
                 if (response.isSuccessful) {
                     dailySummaryLiveData.value = response.body()
@@ -53,8 +51,8 @@ class FoodRecord : ViewModel() {
         return dailySummaryLiveData
     }
 
-    fun getWeeklySummary(month: Int, weekNum: Int) {
-        apiService.getWeeklySummary(month, weekNum).enqueue(object : Callback<WeeklySummaryResponse> {
+    fun getWeeklySummary(nickname: String, month: Int, weekNum: Int) {
+        apiService.getWeeklySummary(nickname, month, weekNum).enqueue(object : Callback<WeeklySummaryResponse> {
             override fun onResponse(call: Call<WeeklySummaryResponse>, response: Response<WeeklySummaryResponse>) {
                 if (response.isSuccessful) {
                     val weeklySummaryResponse = response.body()
@@ -74,8 +72,8 @@ class FoodRecord : ViewModel() {
         })
     }
 
-    fun updateMeal(meal: Meal) {
-        apiService.updateMeal(meal.id, meal).enqueue(object : Callback<Meal> {
+    fun updateMeal(nickname: String, meal: Meal) {
+        apiService.updateMeal(nickname, meal.id, meal).enqueue(object : Callback<Meal> {
             override fun onResponse(call: Call<Meal>, response: Response<Meal>) {
                 if (response.isSuccessful) {
                     val updatedMeal = response.body()
@@ -100,8 +98,8 @@ class FoodRecord : ViewModel() {
         })
     }
 
-    fun deleteMeal(meal: Meal) {
-        apiService.deleteMeal(meal.id).enqueue(object : Callback<Void> {
+    fun deleteMeal(nickname: String, meal: Meal) {
+        apiService.deleteMeal(nickname, meal.id).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     val currentMeals = mealsLiveData.value?.toMutableList()
