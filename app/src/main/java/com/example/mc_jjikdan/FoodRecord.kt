@@ -12,6 +12,8 @@ class FoodRecord : ViewModel() {
     val mealsLiveData = MutableLiveData<List<Meal>>()
     val dailySummaryLiveData = MutableLiveData<DailySummary?>()
     val weeklySummaryLiveData = MutableLiveData<WeeklySummary?>()
+    val solutionLiveData = MutableLiveData<String?>()
+
 
     private val apiService = RetrofitClient.apiService
 
@@ -51,22 +53,25 @@ class FoodRecord : ViewModel() {
         return dailySummaryLiveData
     }
 
-    fun getWeeklySummary(month: Int, weekNum: Int): LiveData<WeeklySummary?> {
-        apiService.getWeeklySummary(month, weekNum).enqueue(object : Callback<WeeklySummary> {
-            override fun onResponse(call: Call<WeeklySummary>, response: Response<WeeklySummary>) {
+    fun getWeeklySummary(month: Int, weekNum: Int) {
+        apiService.getWeeklySummary(month, weekNum).enqueue(object : Callback<WeeklySummaryResponse> {
+            override fun onResponse(call: Call<WeeklySummaryResponse>, response: Response<WeeklySummaryResponse>) {
                 if (response.isSuccessful) {
-                    weeklySummaryLiveData.value = response.body()
+                    val weeklySummaryResponse = response.body()
+                    weeklySummaryLiveData.value = weeklySummaryResponse?.weekly_summary
+                    solutionLiveData.value = weeklySummaryResponse?.solution
                 } else {
                     weeklySummaryLiveData.value = null
+                    solutionLiveData.value = null
                 }
             }
 
-            override fun onFailure(call: Call<WeeklySummary>, t: Throwable) {
+            override fun onFailure(call: Call<WeeklySummaryResponse>, t: Throwable) {
                 Log.e("FoodRecordViewModel", "Error fetching weekly summary", t)
                 weeklySummaryLiveData.value = null
+                solutionLiveData.value = null
             }
         })
-        return weeklySummaryLiveData
     }
 
     fun updateMeal(meal: Meal) {

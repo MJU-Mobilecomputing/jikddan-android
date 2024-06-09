@@ -19,6 +19,14 @@ class PersonalFragment : Fragment() {
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val calendar = Calendar.getInstance()
 
+    // 일주일 권장량 정의
+    private val weeklyRecommendedWater = 14000 // 2L * 7 days
+    private val weeklyRecommendedSalt = 3500 // 500mg * 7 days
+    private val weeklyRecommendedCarbohydrate = 2100 // 300g * 7 days
+    private val weeklyRecommendedProtein = 350 // 50g * 7 days
+    private val weeklyRecommendedFat = 560 // 80g * 7 days
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +52,14 @@ class PersonalFragment : Fragment() {
         foodRecordViewModel.weeklySummaryLiveData.observe(viewLifecycleOwner) { summary ->
             summary?.let {
                 updateUI(it)
+            }
+        }
+
+        // 솔루션 데이터 관찰
+        foodRecordViewModel.solutionLiveData.observe(viewLifecycleOwner) { solution ->
+            solution?.let {
+                binding.textViewSolutionDescription.text = it
+                binding.progressSolution.progress = foodRecordViewModel.weeklySummaryLiveData.value?.weeklyAverageScore ?: 0
             }
         }
 
@@ -95,14 +111,42 @@ class PersonalFragment : Fragment() {
         // 주차 텍스트 업데이트
         val monthText = SimpleDateFormat("M월", Locale.getDefault()).format(calendar.time)
         binding.textViewTitle.text = "$monthText ${weekNum}번째 주 식단 분석"
+        binding.textViewSolutionTitle.text = "$monthText ${weekNum}번째 주 식단 솔루션"
     }
 
-
     private fun updateUI(summary: WeeklySummary) {
-        binding.progressKcal.progress = summary.weeklyFoodMoisture
-        binding.progressCarbohydrate.progress = summary.weeklyCarbon
-        binding.progressFat.progress = summary.weeklyFat
-        binding.progressProtein.progress = summary.weeklyProtein
+        binding.linearLayoutStats.visibility = View.VISIBLE
+
+        // 수분 섭취량 업데이트 및 퍼센트 계산
+        val waterPercent = (summary.weeklyFoodMoisture.toDouble() / weeklyRecommendedWater * 100).toInt()
+        binding.txtWaterAmount.text = "${summary.weeklyFoodMoisture} ml"
+        binding.progressWater.progress = waterPercent
+        binding.txtWaterPercent.text = "$waterPercent% / 일주일 권장량"
+
+        // 나트륨 섭취량 업데이트 및 퍼센트 계산
+        val saltPercent = (summary.weeklySalt.toDouble() / weeklyRecommendedSalt * 100).toInt()
+        binding.txtSaltAmount.text = "${summary.weeklySalt} mg"
+        binding.progressSodium.progress = saltPercent
+        binding.txtSaltPercent.text = "$saltPercent% / 일주일 권장량"
+
+        // 탄수화물 섭취량 업데이트 및 퍼센트 계산
+        val carbohydratePercent = (summary.weeklyCarbon.toDouble() / weeklyRecommendedCarbohydrate * 100).toInt()
+        binding.txtCarbAmount.text = "${summary.weeklyCarbon} g"
+        binding.progressCarbohydrate.progress = carbohydratePercent
+        binding.txtCarbPercent.text = "$carbohydratePercent% / 일주일 권장량"
+
+        // 단백질 섭취량 업데이트 및 퍼센트 계산
+        val proteinPercent = (summary.weeklyProtein.toDouble() / weeklyRecommendedProtein * 100).toInt()
+        binding.txtProteinAmount.text = "${summary.weeklyProtein} g"
+        binding.progressProtein.progress = proteinPercent
+        binding.txtProteinPercent.text = "$proteinPercent% / 일주일 권장량"
+
+        // 지방 섭취량 업데이트 및 퍼센트 계산
+        val fatPercent = (summary.weeklyFat.toDouble() / weeklyRecommendedFat * 100).toInt()
+        binding.txtFatAmount.text = "${summary.weeklyFat} g"
+        binding.progressFat.progress = fatPercent
+        binding.txtFatPercent.text = "$fatPercent% / 일주일 권장량"
+
         binding.solutionScore.text = "${summary.weeklyAverageScore}점"
     }
 
