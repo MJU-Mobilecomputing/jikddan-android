@@ -79,17 +79,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Solution Layout -->
     <LinearLayout
         android:id="@+id/solutionLayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/rounded_border"
+        android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/btnEditProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp">
@@ -98,7 +97,7 @@
             android:id="@+id/textViewSolutionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5월 첫째 주 식단 솔루션"
+            android:text="이번 주 식단 솔루션"
             android:textSize="18sp"
             android:textStyle="bold"
             android:paddingStart="16dp" />
@@ -111,6 +110,7 @@
             android:padding="16dp">
 
             <ProgressBar
+                android:id="@+id/progressSolution"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 style="?android:attr/progressBarStyleHorizontal"
@@ -136,15 +136,4 @@
             android:textSize="12sp"
             android:padding="16dp" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnDeleteProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="회원 삭제"
-        app:layout_constraintTop_toBottomOf="@id/solutionLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

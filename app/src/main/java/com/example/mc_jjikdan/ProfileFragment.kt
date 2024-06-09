@@ -1,4 +1,5 @@
-import android.app.AlertDialog
+package com.example.mc_jjikdan
+
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -7,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.mc_jjikdan.EditProfileFragment
-import com.example.mc_jjikdan.R
 import com.example.mc_jjikdan.databinding.FragmentProfileBinding
 
 class ProfileFragment : Fragment() {
@@ -22,13 +21,10 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         loadProfile()
+        loadSolution()
 
         binding.btnEditProfile.setOnClickListener {
             navigateToEditProfile()
-        }
-
-        binding.btnDeleteProfile.setOnClickListener {
-            showDeleteConfirmationDialog()
         }
 
         return binding.root
@@ -52,48 +48,26 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    private fun loadSolution() {
+        val sharedPreferences = requireActivity().getSharedPreferences("WeeklySummaryData", Context.MODE_PRIVATE)
+        val weeklyAverageScore = sharedPreferences.getInt("weeklyAverageScore", 0)
+        val solution = sharedPreferences.getString("solution", "데이터가 없습니다.")
+
+        binding.textViewSolutionTitle.text = "이번 주 식단 솔루션"
+
+        // weeklyAverageScore가 제대로 받아졌는지 확인하는 로그 출력
+        println("weeklyAverageScore: $weeklyAverageScore") // 디버그 용 로그
+
+        binding.solutionScore.text = "${weeklyAverageScore}점"  // 여기서 문제가 생길 수 있음
+        binding.textViewSolutionDescription.text = solution
+        binding.progressSolution.progress = weeklyAverageScore
+    }
+
     private fun navigateToEditProfile() {
         parentFragmentManager.commit {
             replace(R.id.fragment_container, EditProfileFragment())
             addToBackStack(null)
         }
-    }
-
-    private fun showDeleteConfirmationDialog() {
-        AlertDialog.Builder(context)
-            .setTitle("회원 삭제")
-            .setMessage("회원 삭제를 하면 전체 데이터가 사라집니다. 정말 삭제하시겠습니까?")
-            .setPositiveButton("예") { _, _ -> deleteProfile() }
-            .setNegativeButton("아니오", null)
-            .show()
-    }
-
-    private fun deleteProfile() {
-        val sharedPreferences = requireActivity().getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
-        val nickname = sharedPreferences.getString("nickname", "") ?: ""
-
-        // SharedPreferences에서 사용자 데이터 삭제
-        val userPreferences = requireActivity().getSharedPreferences("UserData_$nickname", Context.MODE_PRIVATE)
-        with(userPreferences.edit()) {
-            clear()
-            apply()
-        }
-
-        // 프로필 데이터 삭제
-        with(sharedPreferences.edit()) {
-            clear()
-            apply()
-        }
-
-        binding.tvNickname.text = ""
-        binding.tvHeight.text = ""
-        binding.tvWeight.text = ""
-        binding.tvDescription.text = ""
-        binding.ivProfileImage.setImageResource(R.drawable.ic_launcher_background)
-        binding.btnEditProfile.text = "프로필 입력"
-
-        // 솔루션 레이아웃 숨기기
-        binding.solutionLayout.visibility = View.GONE
     }
 
     override fun onDestroyView() {

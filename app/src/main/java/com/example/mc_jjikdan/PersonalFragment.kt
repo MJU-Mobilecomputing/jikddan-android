@@ -52,6 +52,7 @@ class PersonalFragment : Fragment() {
         foodRecordViewModel.weeklySummaryLiveData.observe(viewLifecycleOwner) { summary ->
             summary?.let {
                 updateUI(it)
+                saveWeeklySummaryToPreferences(it)
             }
         }
 
@@ -60,6 +61,7 @@ class PersonalFragment : Fragment() {
             solution?.let {
                 binding.textViewSolutionDescription.text = it
                 binding.progressSolution.progress = foodRecordViewModel.weeklySummaryLiveData.value?.weeklyAverageScore ?: 0
+                saveSolutionToPreferences(it)
             }
         }
 
@@ -151,15 +153,20 @@ class PersonalFragment : Fragment() {
         binding.solutionScore.text = "${summary.weeklyAverageScore}점"
     }
 
-    fun clearPersonalData() {
-        binding.linearLayoutStats.visibility = View.GONE
-        binding.solutionLayout.visibility = View.GONE
-        binding.weekText.text = ""
-        binding.textViewTitle.text = ""
-        binding.textViewSolutionTitle.text = ""
-        binding.textViewSolutionDescription.text = ""
-        binding.solutionScore.text = ""
-        binding.progressSolution.progress = 0
+    private fun saveWeeklySummaryToPreferences(summary: WeeklySummary) {
+        val sharedPreferences = requireActivity().getSharedPreferences("WeeklySummaryData", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putInt("weeklyAverageScore", summary.weeklyAverageScore)
+            apply()
+        }
+    }
+
+    private fun saveSolutionToPreferences(solution: String) {
+        val sharedPreferences = requireActivity().getSharedPreferences("WeeklySummaryData", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putString("solution", solution)
+            apply()
+        }
     }
 
     private fun getNicknameFromPreferences(): String {
