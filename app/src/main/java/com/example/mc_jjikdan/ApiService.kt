@@ -14,7 +14,7 @@ interface ApiService {
 
     @GET("/api/v1/weekly")
     fun getWeeklySummary(
-        @Query("nickname") nickname: String,
+        //@Query("nickname") nickname: String,
         @Query("month") month: Int,
         @Query("week_num") weekNum: Int
     ): Call<WeeklySummaryResponse>

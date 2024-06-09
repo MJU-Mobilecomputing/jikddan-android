@@ -102,7 +102,7 @@ class PersonalFragment : Fragment() {
             weekOfMonth
         }
 
-        foodRecordViewModel.getWeeklySummary(nickname, month, weekNum)
+        foodRecordViewModel.getWeeklySummary(month, weekNum)
 
         // 주 텍스트 업데이트
         val weekText = dateFormat.format(startDate) + " - " +

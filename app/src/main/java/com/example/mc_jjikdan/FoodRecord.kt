@@ -51,26 +51,54 @@ class FoodRecord : ViewModel() {
         return dailySummaryLiveData
     }
 
-    fun getWeeklySummary(nickname: String, month: Int, weekNum: Int) {
-        apiService.getWeeklySummary(nickname, month, weekNum).enqueue(object : Callback<WeeklySummaryResponse> {
+    fun getWeeklySummary(month: Int, weekNum: Int) {
+        apiService.getWeeklySummary(month, weekNum).enqueue(object : Callback<WeeklySummaryResponse> {
             override fun onResponse(call: Call<WeeklySummaryResponse>, response: Response<WeeklySummaryResponse>) {
                 if (response.isSuccessful) {
                     val weeklySummaryResponse = response.body()
-                    weeklySummaryLiveData.value = weeklySummaryResponse?.weekly_summary
-                    solutionLiveData.value = weeklySummaryResponse?.solution
+                    weeklySummaryLiveData.value = weeklySummaryResponse?.weeklySummary ?: WeeklySummary(
+                        month = month,
+                        weekOfMonth = weekNum,
+                        weeklyFoodMoisture = 0,
+                        weeklySalt = 0,
+                        weeklyCarbon = 0,
+                        weeklyFat = 0,
+                        weeklyProtein = 0,
+                        weeklyAverageScore = 0
+                    )
+                    solutionLiveData.value = weeklySummaryResponse?.solution ?: "데이터가 없습니다."
                 } else {
-                    weeklySummaryLiveData.value = null
-                    solutionLiveData.value = null
+                    weeklySummaryLiveData.value = WeeklySummary(
+                        month = month,
+                        weekOfMonth = weekNum,
+                        weeklyFoodMoisture = 0,
+                        weeklySalt = 0,
+                        weeklyCarbon = 0,
+                        weeklyFat = 0,
+                        weeklyProtein = 0,
+                        weeklyAverageScore = 0
+                    )
+                    solutionLiveData.value = "데이터가 없습니다."
                 }
             }
 
             override fun onFailure(call: Call<WeeklySummaryResponse>, t: Throwable) {
                 Log.e("FoodRecordViewModel", "Error fetching weekly summary", t)
-                weeklySummaryLiveData.value = null
-                solutionLiveData.value = null
+                weeklySummaryLiveData.value = WeeklySummary(
+                    month = month,
+                    weekOfMonth = weekNum,
+                    weeklyFoodMoisture = 0,
+                    weeklySalt = 0,
+                    weeklyCarbon = 0,
+                    weeklyFat = 0,
+                    weeklyProtein = 0,
+                    weeklyAverageScore = 0
+                )
+                solutionLiveData.value = "데이터가 없습니다."
             }
         })
     }
+
 
     fun updateMeal(nickname: String, meal: Meal) {
         apiService.updateMeal(nickname, meal.id, meal).enqueue(object : Callback<Meal> {
