@@ -1,5 +1,7 @@
 package com.example.mc_jjikdan
 
+import PersonalFragment
+import ProfileFragment
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
