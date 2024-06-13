@@ -1,5 +1,6 @@
 package com.example.mc_jjikdan
 
+import com.example.mc_jjikdan.api.diary.dto.Menu
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -26,7 +27,7 @@ interface ApiService {
         @Part img: MultipartBody.Part,
         @Part("date") date: RequestBody,
         @Part("menu_time") menuTime: RequestBody
-    ): Call<MealResponse>
+    ): Call<Menu>
 
     @PUT("/api/v1/menu/{id}")
     fun updateMeal(@Query("nickname") nickname: String, @Path("id") id: Int, @Body meal: Meal): Call<Meal>

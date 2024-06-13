@@ -81,6 +81,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txtKcalAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 kcal"
@@ -98,6 +99,7 @@
                     android:progressDrawable="@drawable/progress" />
 
                 <TextView
+                    android:id="@+id/txtKcalPercent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -119,6 +121,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txtSaltAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 mg"
@@ -136,6 +139,7 @@
                     android:progressDrawable="@drawable/progress" />
 
                 <TextView
+                    android:id="@+id/txtSaltPercent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -157,6 +161,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txtWaterAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 ml"
@@ -174,6 +179,7 @@
                     android:progressDrawable="@drawable/progress" />
 
                 <TextView
+                    android:id="@+id/txtWaterPercent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"

@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.mc_jjikdan.api.diary.dto.Menu
 import com.example.mc_jjikdan.databinding.FragmentFoodRecordBinding
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -45,6 +46,11 @@ class FoodRecordFragment : Fragment() {
     private var imageUri: Uri? = null
 
     private lateinit var launcher: ActivityResultLauncher<Intent>
+
+    // 하루 권장량 정의
+    private val dailyRecommendedWater = 2000 // 2L per day
+    private val dailyRecommendedSalt = 2300 // 2300mg per day
+    private val dailyRecommendedKcal = 2000 // 2000 kcal per day (평균적인 하루 칼로리 권장량)
 
     companion object {
         private const val IMAGE_PICK_CODE = 1000
@@ -164,11 +170,13 @@ class FoodRecordFragment : Fragment() {
         val datePart = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedDate)
         val menuTimePart = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), selectedMenuTime)
 
-        RetrofitClient.apiService.uploadMeal(nickname, body, datePart, menuTimePart).enqueue(object : Callback<MealResponse> {
-            override fun onResponse(call: Call<MealResponse>, response: Response<MealResponse>) {
+        RetrofitClient.apiService.uploadMeal(nickname, body, datePart, menuTimePart).enqueue(object : Callback<Menu> {
+            override fun onResponse(call: Call<Menu>, response: Response<Menu>) {
                 if (response.isSuccessful) {
+                    val mealResponse = response.body()
+                    Log.d(TAG, "Menu: $mealResponse") // 로그 추가
                     // 분석된 값 업데이트
-                    updateUI(response.body())
+                    updateUI(mealResponse)
                     Toast.makeText(requireContext(), "식단이 저장되었습니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     Log.e(TAG, "Error: ${response.errorBody()?.string()}")
@@ -176,19 +184,32 @@ class FoodRecordFragment : Fragment() {
                 }
             }
 
-            override fun onFailure(call: Call<MealResponse>, t: Throwable) {
+            override fun onFailure(call: Call<Menu>, t: Throwable) {
                 Toast.makeText(requireContext(), "네트워크 오류", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    private fun updateUI(mealResponse: MealResponse?) {
-        mealResponse?.let {
+    private fun updateUI(menuResponse: Menu?) {
+        menuResponse?.let {
             binding.linearLayoutStats.visibility = View.VISIBLE
-            binding.progressKcal.progress = it.foodMoisture
-            binding.progressSodium.progress = it.salt
-            binding.progressWater.progress = it.carbon
-            // 더 많은 정보가 필요하다면 추가적인 업데이트 로직을 작성하세요.
+            // 칼로리 업데이트 및 퍼센트 계산
+            val kcalPercent = (it.total_cal.toDouble() / dailyRecommendedKcal * 100).toInt()
+            binding.txtKcalAmount.text = "${it.total_cal} kcal"
+            binding.progressKcal.progress = kcalPercent
+            binding.txtKcalPercent.text = "$kcalPercent% / 하루 권장량"
+
+            // 나트륨 섭취량 업데이트 및 퍼센트 계산
+            val saltPercent = (it.salt.toDouble() / dailyRecommendedSalt * 100).toInt()
+            binding.txtSaltAmount.text = "${it.salt} mg"
+            binding.progressSodium.progress = saltPercent
+            binding.txtSaltPercent.text = "$saltPercent% / 하루 권장량"
+
+            // 수분 섭취량 업데이트 및 퍼센트 계산
+            val waterPercent = (it.food_moisture.toDouble() / dailyRecommendedWater * 100).toInt()
+            binding.txtWaterAmount.text = "${it.food_moisture} ml"
+            binding.progressWater.progress = waterPercent
+            binding.txtWaterPercent.text = "$waterPercent% / 하루 권장량"
         }
     }
 
