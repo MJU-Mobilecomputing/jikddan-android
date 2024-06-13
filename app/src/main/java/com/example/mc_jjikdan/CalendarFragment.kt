@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
@@ -74,7 +75,7 @@ class CalendarFragment : Fragment() {
             showEditDialog(menu)
         }
         mealBinding.deleteButton.setOnClickListener {
-            //deleteMeal(menu)
+            deleteMeal(menu)
         }
 
         binding.mealContainer.addView(mealBinding.root)
@@ -88,7 +89,7 @@ class CalendarFragment : Fragment() {
         val saveButton: Button = dialogView.findViewById(R.id.saveButton)
 
         mealNameEditText.setText(menu.summary)
-        mealCaloriesEditText.setText(menu.total_cal)
+        mealCaloriesEditText.setText(menu.total_cal.toString())
 
         // Set time picker
         val timeParts = menu.created_at.split(":")
@@ -121,27 +122,27 @@ class CalendarFragment : Fragment() {
                 saveButton.visibility = View.VISIBLE
                 positiveButton.visibility = View.GONE
             }
-            /*
+
             saveButton.setOnClickListener {
                 updateMeal(menu)
                 dialog.dismiss()
-            }*/
+            }
         }
 
         dialog.show()
     }
 
-    /*
-        private fun updateMeal(menu: Menu) {
-            viewModel.updateMeal(meal)
-            Toast.makeText(requireContext(), "${meal.name}이(가) 수정되었습니다!", Toast.LENGTH_SHORT).show()
-        }
 
-        private fun deleteMeal(meal: Meal) {
-            viewModel.deleteMeal(meal)
-            Toast.makeText(requireContext(), "${meal.name}이(가) 삭제되었습니다!", Toast.LENGTH_SHORT).show()
-        }
-    */
+    private fun updateMeal(menu: Menu) {
+        viewModel.updateMeal(menu)
+        Toast.makeText(requireContext(), "${menu.summary}이(가) 수정되었습니다!", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun deleteMeal(meal: Menu) {
+        viewModel.deleteMeal(meal)
+        Toast.makeText(requireContext(), "${meal.summary}이(가) 삭제되었습니다!", Toast.LENGTH_SHORT).show()
+    }
+
     private fun getNicknameFromPreferences(): String {
         val sharedPreferences = requireActivity().getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
         return sharedPreferences.getString("nickname", "") ?: ""

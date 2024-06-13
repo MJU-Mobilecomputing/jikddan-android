@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mc_jjikdan.api.diary.dto.Diary
+import com.example.mc_jjikdan.api.diary.dto.Menu
 import com.example.mc_jjikdan.api.diary.interfaces.IDiaryService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -26,4 +27,24 @@ class DiaryViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateMeal(meal: Menu) {
+        _diary.value?.diary_menus?.let { meals ->
+            val updatedMeals = meals.toMutableList()
+            val index = updatedMeals.indexOfFirst { it.id == meal.id }
+            if (index != -1) {
+                updatedMeals[index] = meal
+                _diary.value = _diary.value?.copy(diary_menus = updatedMeals)
+            }
+        }
+    }
+
+    fun deleteMeal(meal: Menu) {
+        _diary.value?.diary_menus?.let { meals ->
+            val updatedMeals = meals.toMutableList()
+            updatedMeals.removeAt(updatedMeals.indexOf(meal))
+            _diary.value = _diary.value?.copy(diary_menus = updatedMeals)
+        }
+    }
 }
+
