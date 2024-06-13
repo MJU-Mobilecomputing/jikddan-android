@@ -17,10 +17,10 @@ class DiaryViewModel @Inject constructor(
     private val _diary = MutableLiveData<Diary>()
     val diary: LiveData<Diary> get() = _diary
 
-    fun getData(nickname: String, date: String) {
+    fun getData(date: String) {
         viewModelScope.launch {
             try {
-                _diary.value = api.getDiary(nickname, date)
+                _diary.value = api.getDiary(date)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
