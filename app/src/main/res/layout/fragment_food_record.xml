@@ -83,7 +83,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="330 kcal"
+                        android:text="0 kcal"
                         android:textColor="@color/main_color"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -94,7 +94,7 @@
                     android:layout_width="320dp"
                     android:layout_height="8dp"
                     android:layout_gravity="center_horizontal"
-                    android:progress="30"
+                    android:progress="0"
                     android:progressDrawable="@drawable/progress" />
 
                 <TextView
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="15dp"
-                    android:text="30% / 하루 권장량"
+                    android:text="0% / 하루 권장량"
                     android:textSize="10sp" />
 
                 <LinearLayout
@@ -121,7 +121,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="120 mg"
+                        android:text="0 mg"
                         android:textColor="@color/main_color"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -132,7 +132,7 @@
                     android:layout_width="320dp"
                     android:layout_height="8dp"
                     android:layout_gravity="center_horizontal"
-                    android:progress="20"
+                    android:progress="0"
                     android:progressDrawable="@drawable/progress" />
 
                 <TextView
@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="15dp"
-                    android:text="20% / 하루 권장량"
+                    android:text="0% / 하루 권장량"
                     android:textSize="10sp" />
 
                 <LinearLayout
@@ -159,7 +159,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="500 ml"
+                        android:text="0 ml"
                         android:textColor="@color/main_color"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -170,7 +170,7 @@
                     android:layout_width="320dp"
                     android:layout_height="8dp"
                     android:layout_gravity="center_horizontal"
-                    android:progress="10"
+                    android:progress="0"
                     android:progressDrawable="@drawable/progress" />
 
                 <TextView
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="15dp"
-                    android:text="10% / 하루 권장량"
+                    android:text="0% / 하루 권장량"
                     android:textSize="10sp" />
             </LinearLayout>
 
